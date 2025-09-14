@@ -9,6 +9,7 @@ function App() {
   const [selectedShirt, setSelectedShirt] = useState(null);
   const [selectedPants, setSelectedPants] = useState(null);
   const [generated, setGenerated] = useState(false);
+  const [userImage, setUserImage] = useState(null);
 
   return (
     <>
@@ -31,6 +32,35 @@ function App() {
       <div className="right-panel">
         <div className="output-preview">
           <h2>Your Outfit Preview</h2>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={e => {
+              const file = e.target.files[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = ev => setUserImage(ev.target.result);
+                reader.readAsDataURL(file);
+              }
+            }}
+            style={{ marginBottom: 16 }}
+          />
+          {userImage && (
+            <div style={{ marginBottom: 16 }}>
+              <img
+                src={userImage}
+                alt="User"
+                style={{
+                  width: 100,
+                  height: 100,
+                  objectFit: 'cover',
+                  borderRadius: '50%',
+                  border: '3px solid #2563eb',
+                  boxShadow: '0 2px 8px rgba(52, 152, 219, 0.13)'
+                }}
+              />
+            </div>
+          )}
           {generated ? (
             <>
               <div>
