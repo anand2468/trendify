@@ -1,0 +1,13 @@
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.left-box, .right-box {
+  width: 48%;
+}

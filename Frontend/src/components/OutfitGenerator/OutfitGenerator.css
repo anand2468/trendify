@@ -1,0 +1,102 @@
+.generator-container {
+  background: rgba(255,255,255,0.97);
+  border-radius: 40px;
+  padding: 28px 24px;
+  max-width: 400px;
+  box-shadow: 0 10px 32px rgba(52, 152, 219, 0.13), 0 2px 8px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  box-sizing: border-box;
+  transition: box-shadow 0.3s;
+}
+
+.generator-container:hover {
+  box-shadow: 0 16px 48px rgba(52, 152, 219, 0.18), 0 4px 16px rgba(0,0,0,0.10);
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  background-color: #3498db;
+  color: white;
+  border-radius: 20px;
+  font-size: 16px;
+  box-sizing: border-box;
+  text-align: center;
+  font-weight: 500;
+}
+
+.outfit-type-toggle {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 10px 0;
+  padding: 0 10px;
+}
+
+.outfit-type-toggle label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.outfit-type-toggle input[type="radio"] {
+  accent-color: #222;
+  width: 18px;
+  height: 18px;
+}
+
+.search-button, .generate-button {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 14px 0;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+
+.search-button:hover, .generate-button:hover {
+  background-color: #217dbb;
+}
+
+.carousels-section {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+/* Add to OutfitGenerator.css */
+.search-input, .outfit-select {
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.07);
+  transition: box-shadow 0.2s, background 0.2s;
+}
+.search-input:focus, .outfit-select:focus {
+  outline: none;
+  box-shadow: 0 4px 16px rgba(52, 152, 219, 0.18);
+  background: #e0e7ff;
+  color: #222;
+}
+
+.search-button, .generate-button {
+  background: linear-gradient(90deg, #2563eb 0%, #38bdf8 100%);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 14px 0;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.07);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.search-button:hover, .generate-button:hover {
+  background: linear-gradient(90deg, #38bdf8 0%, #2563eb 100%);
+  box-shadow: 0 4px 16px rgba(52, 152, 219, 0.18);
+}
