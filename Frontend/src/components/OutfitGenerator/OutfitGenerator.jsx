@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ItemCarousel from '../ItemCarousel/ItemCarousel';
 import './OutfitGenerator.css';
-import { shirtsData, pantsData } from '../../api/mockData';
+// import { shirtsData, pantsData } from '../../api/mockData';
 import Header from '../../header/Header';
+import data from '../../api/mockData';
 
 function OutfitGenerator({
   eventType,
@@ -15,33 +16,56 @@ function OutfitGenerator({
   setSelectedPants,
   generated,
   setGenerated,
+  userImage,
+  setUserImage
 }) {
+  const [shirtsData, setShirtsData] = useState([])
+  const [pantsData, setPantsData] = useState([])
+
   const handleSearch = () => {
     setGenerated(false);
     if (!eventType.trim()) {
       alert("Please enter an event or outfit description.");
       return;
     }
-    // Add search logic if needed
+    setShirtsData([]);
+    setPantsData([]);
+  // Call backend API to get products based on eventType and outfitType
+  fetch(`http://localhost:5000/getproducts?product=${encodeURIComponent(eventType)}&outfittype=${encodeURIComponent(outfitType)}`)
+    .then(res => {
+      if (!res.ok) throw new Error("Failed to fetch products");
+      return res.json();
+    })
+    .then(data => {
+      console.log(data)
+      if (outfitType === 'individual') {
+        // Expecting data.shirts and data.pants as arrays of {name, image, url}
+        if ( true) {
+          // Overwrite shirtsData and pantsData arrays
+          setShirtsData(data.shirts)
+          console.log(data)
+          setPantsData(data.pants)
+        }
+      }
+      else{
+        if ( data.shirts.length != 0){
+          setShirtsData(data.shirts)
+        }
+      }
+      // You can handle 'combo' or other types here if needed
+    })
+    .catch(err => {
+      alert("Error fetching products: " + err.message);
+    });
+      // setShirtsData(data.shirts);
+      // setPantsData(data.pants);
   };
 
   const handleGenerate = () => {
-    if (outfitType === 'individual') {
-      if (selectedShirt === null) {
-        alert("Please select a shirt.");
+      if (selectedShirt === null && selectedPants === null) {
+        alert("Please select an outfit.");
         return;
       }
-      if (selectedPants === null) {
-        alert("Please select a pair of pants.");
-        return;
-      }
-    }
-    if (outfitType === 'combo') {
-      if (selectedShirt === null) {
-        alert("Please select a full outfit.");
-        return;
-      }
-    }
     setGenerated(true);
   };
 
@@ -61,6 +85,7 @@ function OutfitGenerator({
       />
 
       <div className="outfit-type-toggle">
+        
         <label>
           <input
             type="radio"
@@ -96,7 +121,7 @@ function OutfitGenerator({
       <button className="search-button" onClick={handleSearch}>Search</button>
 
       <div className="carousels-section">
-        {outfitType === 'individual' && (
+        {shirtsData && shirtsData.length!=0 && (
           <>
             <ItemCarousel
               title="Shirts"
@@ -107,32 +132,67 @@ function OutfitGenerator({
                 setGenerated(false);
               }}
             />
-            <ItemCarousel
+            {/* <ItemCarousel
               title="Pants"
-              items={pantsData}
+              items={shirtsData}
               selectedItem={selectedPants}
               onSelectItem={(idx) => {
                 setSelectedPants(idx);
                 setGenerated(false);
               }}
-            />
+            /> */}
           </>
         )}
 
-        {outfitType === 'combo' && (
+        { pantsData && pantsData.length !=0 && (
           <ItemCarousel
             title="Full Outfits"
-            items={shirtsData} // Replace with your full outfit images array if available
-            selectedItem={selectedShirt}
+            items={pantsData} // Replace with your full outfit images array if available
+            selectedItem={selectedPants}
             onSelectItem={(idx) => {
-              setSelectedShirt(idx);
+              selectedPants(idx);
               setGenerated(false);
             }}
           />
         )}
       </div>
 
-      <button className="generate-button" onClick={handleGenerate}>Generate</button>
+      { (selectedShirt != null || selectedPants != null) && 
+      <>
+        <h4>upload your image</h4>
+        <input
+            type="file"
+            accept="image/*"
+            onChange={e => {
+              const file = e.target.files[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = ev => setUserImage(ev.target.result);
+                reader.readAsDataURL(file);
+              }
+            }}
+            style={{ marginBottom: 16 }}
+          />
+          {userImage && (
+            <div style={{ marginBottom: 16 }}>
+              <img
+                src={userImage}
+                alt="User"
+                style={{
+                  width: 150,
+                  height: 150,
+                  objectFit: 'cover',
+                  borderRadius: '5%',
+                  border: '3px solid #2563eb',
+                  boxShadow: '0 2px 8px rgba(52, 152, 219, 0.13)'
+                }}
+              />
+            </div>
+          )}
+        
+
+        <button className="generate-button" onClick={handleGenerate}>Generate</button>
+      </> }
     </div>
   );
 }

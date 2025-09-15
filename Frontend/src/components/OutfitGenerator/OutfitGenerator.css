@@ -2,7 +2,8 @@
   background: rgba(255,255,255,0.97);
   border-radius: 40px;
   padding: 28px 24px;
-  max-width: 400px;
+  width: 600px;
+  max-width: 600px;
   box-shadow: 0 10px 32px rgba(52, 152, 219, 0.13), 0 2px 8px rgba(0,0,0,0.07);
   display: flex;
   flex-direction: column;
